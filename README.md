@@ -14,6 +14,7 @@ render('name',['name'=>'Abby']);
 ## Database wrapper with error handling
 
 ```php
+$conn = @mysqli_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD); //declare once
 $a = dbAr("SELECT * FROM test"); //output an assoc array
 ```
 
@@ -29,3 +30,14 @@ $routes['GET']['/^\/blog\/(\w+)\/(\d+)\/?$/'] = function($category, $id){
 ```
 
 ## Migration (to-do)
+``` php
+//todo
+function migrate($csv){
+    foreach(explode(PHP_EOL, file_get_contents($csv)) as $line){
+        if($x++ == 0){dbAr("CREATE TABLE $csv"
+        foreach(explode(",", file_get_contents($csv)) as $line){
+            
+        }
+    }
+}
+```
