@@ -11,21 +11,22 @@ function render($template,$vars){
 function dbAr($query){
     $tmp = mysqli_query($GLOBALS['conn'],$query) or die(mysqli_error($GLOBALS['conn']) . $query);
     for(;$arr[] = mysqli_fetch_assoc($tmp););
-    return array_pop($arr)?$arr:[];
+    return array_pop($arr)==null?[]:$arr; //the last element from mysqli_fetch_assoc is supposed to be null
 }
 
 //router
 /*sample:
-$routes['/^\/blog\/(\w+)\/(\d+)\/?$/'] = function($category, $id){
+$routes['ALL']['/^\/blog\/(\w+)\/(\d+)\/?$/'] = function($category, $id){
+    print "category={$category}, id={$id}";
+};
+$routes['GET']['/^\/blog\/(\w+)\/(\d+)\/?$/'] = function($category, $id){
     print "category={$category}, id={$id}";
 };
 */
 
-//bottom of script - 6 lines
-foreach ($routes as $pattern => $callback) {
-    if (preg_match($pattern, $_SERVER['REQUEST_URI'], $params) === 1) {
-        array_shift($params);
-        return call_user_func_array($callback, array_values($params));
+//bottom of script - 5 lines
+foreach ($routes as $method => $v) {
+    if ($_SERVER['REQUEST_METHOD'] == $method || $method == 'ALL' && $preg_match($v[0], $_SERVER['REQUEST_URI'], $params) === 1) {
+        return call_user_func_array($v[1], array_shift($params)==null?[]:array_values($params));
     }
 }
-
