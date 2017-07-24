@@ -1,19 +1,21 @@
 <?php
 //template - 3 lines
-function render($template){
-    echo preg_replace("/\{([^\{]{1,100}?)\}/e","$$1",file_get_contents("$template.tpl"));
+//sample: <a>{test}</a>
+function render($template,$vars){
+    echo preg_replace("/\{([^\{]{1,100}?)\}/e","$vars[$1]",file_get_contents("$template.tpl"));
 }
 
 //database 5 lines
+//connection sample:
 //$conn = @mysqli_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD);
 function dbAr($query){
     $tmp = mysqli_query($GLOBALS['conn'],$query) or die(mysqli_error($GLOBALS['conn']) . $query);
-	for(;$arr[] = mysqli_fetch_assoc($tmp););array_pop($arr);
-    return $arr;
+    for(;$arr[] = mysqli_fetch_assoc($tmp););
+    return array_pop($arr)?$arr:[];
 }
 
 //router
-/*
+/*sample:
 $routes['/^\/blog\/(\w+)\/(\d+)\/?$/'] = function($category, $id){
     print "category={$category}, id={$id}";
 };
