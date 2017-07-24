@@ -24,6 +24,17 @@ $routes['GET']['/^\/blog\/(\w+)\/(\d+)\/?$/'] = function($category, $id){
 };
 */
 
+//migration
+/*
+function migrate($csv){
+    foreach(explode(PHP_EOL, file_get_contents($csv)) as $line){
+        if($x++ == 0){dbAr("CREATE TABLE $csv"
+        foreach(explode(",", file_get_contents($csv)) as $line){
+            
+        }
+    }
+}
+*/
 //auto router - 6 lines
 register_shutdown_function(function(){
     foreach ($GLOBALS['routes'] as $method => $v) {
