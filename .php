@@ -24,9 +24,11 @@ $routes['GET']['/^\/blog\/(\w+)\/(\d+)\/?$/'] = function($category, $id){
 };
 */
 
-//bottom of script - 5 lines
-foreach ($routes as $method => $v) {
-    if ($_SERVER['REQUEST_METHOD'] == $method || $method == 'ALL' && $preg_match($v[0], $_SERVER['REQUEST_URI'], $params) === 1) {
-        return call_user_func_array($v[1], array_shift($params)==null?[]:array_values($params));
+//auto router - 6 lines
+register_shutdown_function(function(){
+    foreach ($GLOBALS['routes'] as $method => $v) {
+        if ($_SERVER['REQUEST_METHOD'] == $method || $method == 'ALL' && $preg_match($v[0], $_SERVER['REQUEST_URI'], $params) === 1) {
+            call_user_func_array($v[1], array_shift($params)==null?[]:array_values($params));
+        }
     }
-}
+});
