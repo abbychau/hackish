@@ -13,9 +13,9 @@ function dbAr($query){
 
 //auto router - 6 lines
 register_shutdown_function(function(){
-    foreach ($GLOBALS['routes'] as $method => $v) {
-        if ($_SERVER['REQUEST_METHOD'] == $method || $method == 'ALL' && $preg_match($v[0], $_SERVER['REQUEST_URI'], $params) === 1) {
-            call_user_func_array($v[1], array_shift($params)==null?[]:array_values($params));
+    foreach ($GLOBALS['routes'] as $method =>$v) {
+        if ($_SERVER['REQUEST_METHOD'] == $method || $method == 'ALL' && preg_match(key($v), $_SERVER['REQUEST_URI'], $params) === 1) {
+            call_user_func_array(reset($v), array_shift($params)==null?[]:array_values($params));
         }
     }
 });
