@@ -27,6 +27,9 @@ $routes['ALL']['/^\/blog\/(\w+)\/(\d+)\/?$/'] = function($category, $id){
 $routes['GET']['/^\/blog\/(\w+)\/(\d+)\/?$/'] = function($category, $id){
     print "category={$category}, id={$id}";
 };
+$routes['ALL']['/watch\?v=(\w+)/'] = function($id){
+        include('view.php');
+};
 ```
 
 ## Migration (to-do)
